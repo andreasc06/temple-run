@@ -1,6 +1,5 @@
 import random
 import pygame
-#import pygame.mixer
 pygame.init()
 
 
@@ -18,7 +17,7 @@ class Game:
         pygame.display.set_caption("Temple Run 2D")
 
         self.frame = 0
-        self.obstacle_interval = 2
+        self.obstacle_interval = START_OBSTACLE_INTERVAL
         self.clock = pygame.time.Clock()
 
         self.font = pygame.font.SysFont("Arial", 30)
@@ -53,8 +52,10 @@ class Game:
     def reset_game(self):
 
         """ Nullstiller variabler for å starte spille på nytt"""
+
         pygame.mixer.music.play()
         self.frame = 1
+        self.obstacle_interval = START_OBSTACLE_INTERVAL
         self.player = Player()
         self.crates, self.rocks = single_crate()
 
@@ -116,11 +117,21 @@ class Game:
 
     def run(self):
 
+        #self.frame = 4000
+
 
         while True:
 
             if not self.player.is_dead:
                 self.frame += 1 # Antall frames men brukes også som score
+
+
+            # Sjekker om frame er hel tusetall (eks. 2000) 
+            # Sjekker om frame er mindre enn start intervallet * 1000 (så tidsintervallet ikke blir mindre en 1 sekund)
+            if self.frame % 1000 == 0 and self.frame < (START_OBSTACLE_INTERVAL * 1000): 
+
+                # Reduserer tids intervallet mellom hver hindring med 1 sekund
+                self.obstacle_interval -= 1
 
             self.handle_events() # Spiller input
 
