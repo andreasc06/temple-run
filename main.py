@@ -14,7 +14,7 @@ class Game:
         """ Gjør klar variabler og klasser som spillet skal bruke """
 
         self.screen = pygame.display.set_mode(SCREEN_RES, pygame.SCALED | pygame.DOUBLEBUF)
-        pygame.display.set_caption("Temple Run 2D")
+        pygame.display.set_caption("Temple Run")
 
         self.frame = 0
         self.obstacle_interval = START_OBSTACLE_INTERVAL
@@ -75,6 +75,7 @@ class Game:
             self.screen.blit(score_text, (400, 300))
             self.screen.blit(retry_text, (400, 400))
         else:
+            # Tegner kun score oppi hjørne dersom spilleren lever
             score_text = self.font.render(f"SCORE: {self.frame}", True, "white")
             self.screen.blit(score_text, (0, 0))
 
